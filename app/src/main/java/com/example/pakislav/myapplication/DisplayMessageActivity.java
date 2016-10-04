@@ -53,6 +53,9 @@ public class DisplayMessageActivity extends AppCompatActivity {
             case "French":
                 imageView.setImageResource(R.drawable.frenchflag);
                 break;
+            case "Nazi":
+                imageView.setImageResource(R.drawable.naziflag);
+                break;
         }
         imageView.setBackgroundColor(ContextCompat.getColor(this, R.color.red));
 
