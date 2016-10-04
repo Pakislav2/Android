@@ -1,5 +1,6 @@
 package com.example.pakislav.myapplication;
 
+import android.app.ActionBar;
 import android.content.Intent;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -28,26 +29,29 @@ public class DisplayMessageActivity extends AppCompatActivity {
 
         ImageView imageView = new ImageView(this);
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
-        params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, RelativeLayout.ALIGN_PARENT_LEFT);
+        params.addRule(RelativeLayout.CENTER_IN_PARENT);
         imageView.setLayoutParams(params);
+        //imageView.setScaleType(ImageView.ScaleType.FIT_XY); //to nic nie robi bez wzgledu na wartosc
+        //imageView.setAdjustViewBounds(true); // nic nie zmienia
+        //imageView.setPadding(0,0,0,0); //nic nie zmienia
         switch (scountry) {
             case "English":
-                imageView.setImageResource(R.mipmap.ukflag);
+                imageView.setImageResource(R.drawable.ukflag);
                 break;
             case "Polish":
-                imageView.setImageResource(R.mipmap.polishflag);
+                imageView.setImageResource(R.drawable.polishflag);
                 break;
             case "Spanish":
-                imageView.setImageResource(R.mipmap.spanishflag);
+                imageView.setImageResource(R.drawable.spanishflag);
                 break;
             case "German":
-                imageView.setImageResource(R.mipmap.germanflag);
+                imageView.setImageResource(R.drawable.germanflag);
                 break;
             case "Swahili":
-                imageView.setImageResource(R.mipmap.kenyaflag);
+                imageView.setImageResource(R.drawable.kenyaflag);
                 break;
             case "French":
-                imageView.setImageResource(R.mipmap.frenchflag);
+                imageView.setImageResource(R.drawable.frenchflag);
                 break;
         }
         imageView.setBackgroundColor(ContextCompat.getColor(this, R.color.red));
