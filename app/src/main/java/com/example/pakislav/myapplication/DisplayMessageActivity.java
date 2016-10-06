@@ -12,6 +12,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
@@ -81,7 +83,7 @@ public class DisplayMessageActivity extends AppCompatActivity implements SeekBar
         ViewGroup layout = (ViewGroup) findViewById(R.id.activity_display_message);
         layout.addView(textView);
         //layout.addView(imageButton);
-
+        final Animation animScale = AnimationUtils.loadAnimation(this, R.anim.anim_scale);
         seekBar=(SeekBar)findViewById(R.id.seekBar);
         seekBar.setOnSeekBarChangeListener(this);
         mp = MediaPlayer.create(context, R.raw.airhorn);
@@ -90,6 +92,7 @@ public class DisplayMessageActivity extends AppCompatActivity implements SeekBar
 
             @Override
             public void onClick(View v){
+                v.startAnimation(animScale);
                 try {
                     if (mp.isPlaying()) {
                         mp.stop();
