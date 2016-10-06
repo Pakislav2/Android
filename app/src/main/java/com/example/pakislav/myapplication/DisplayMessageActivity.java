@@ -1,28 +1,28 @@
 package com.example.pakislav.myapplication;
 
-import android.app.ActionBar;
+import android.content.Context;
 import android.content.Intent;
 import android.media.AudioFormat;
 import android.media.AudioManager;
 import android.media.AudioTrack;
+import android.media.MediaPlayer;
 import android.os.Handler;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
+import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
+import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class DisplayMessageActivity extends AppCompatActivity implements SeekBar.OnSeekBarChangeListener {
 
     SeekBar seekBar;
     //TextView seekBarHint;
     //Toast toast;
-    private final int duration = 10;
+    private final int duration = 3;
     private final int sampleRate = 8000;
     private final int numSamples = duration * sampleRate;
     private final double sample[] = new double[numSamples];
@@ -30,6 +30,8 @@ public class DisplayMessageActivity extends AppCompatActivity implements SeekBar
     private final byte generatedSnd[] = new byte[2 * numSamples];
 
     Handler handler = new Handler();
+    MediaPlayer mp;
+    Context context = this;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,45 +46,60 @@ public class DisplayMessageActivity extends AppCompatActivity implements SeekBar
         textView.setTextSize(40);
         textView.setText(message);
 
-        ImageView imageView = new ImageView(this);
+        ImageButton imageButton = (ImageButton) findViewById(R.id.imageButton);
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
         params.addRule(RelativeLayout.CENTER_IN_PARENT);
-        imageView.setLayoutParams(params);
-        //imageView.setScaleType(ImageView.ScaleType.FIT_XY); //to nic nie robi bez wzgledu na wartosc
-        //imageView.setAdjustViewBounds(true); // nic nie zmienia
-        //imageView.setPadding(0,0,0,0); //nic nie zmienia
+        imageButton.setLayoutParams(params);
+        //imageButton.setScaleType(ImageView.ScaleType.FIT_XY); //to nic nie robi bez wzgledu na wartosc
+        //imageButton.setAdjustViewBounds(true); // nic nie zmienia
+        //imageButton.setPadding(0,0,0,0); //nic nie zmienia
         switch (scountry) {
             case "English":
-                imageView.setImageResource(R.drawable.ukflag);
+                imageButton.setImageResource(R.drawable.ukflag);
                 break;
             case "Polish":
-                imageView.setImageResource(R.drawable.polishflag);
+                imageButton.setImageResource(R.drawable.polishflag);
                 break;
             case "Spanish":
-                imageView.setImageResource(R.drawable.spanishflag);
+                imageButton.setImageResource(R.drawable.spanishflag);
                 break;
             case "German":
-                imageView.setImageResource(R.drawable.germanflag);
+                imageButton.setImageResource(R.drawable.germanflag);
                 break;
             case "Swahili":
-                imageView.setImageResource(R.drawable.kenyaflag);
+                imageButton.setImageResource(R.drawable.kenyaflag);
                 break;
             case "French":
-                imageView.setImageResource(R.drawable.frenchflag);
+                imageButton.setImageResource(R.drawable.frenchflag);
                 break;
             case "Nazi":
-                imageView.setImageResource(R.drawable.naziflag);
+                imageButton.setImageResource(R.drawable.naziflag);
                 break;
         }
-        imageView.setBackgroundColor(ContextCompat.getColor(this, R.color.red));
 
 
         ViewGroup layout = (ViewGroup) findViewById(R.id.activity_display_message);
         layout.addView(textView);
-        layout.addView(imageView);
+        //layout.addView(imageButton);
 
         seekBar=(SeekBar)findViewById(R.id.seekBar);
         seekBar.setOnSeekBarChangeListener(this);
+        mp = MediaPlayer.create(context, R.raw.airhorn);
+        imageButton.setOnClickListener (new View.OnClickListener() {
+
+
+            @Override
+            public void onClick(View v){
+                try {
+                    if (mp.isPlaying()) {
+                        mp.stop();
+                        mp.release();
+                        mp = MediaPlayer.create(context, R.raw.airhorn);
+                    } mp.start();
+                } catch(Exception e) { e.printStackTrace(); }
+            }
+
+        });
 
     }
 
