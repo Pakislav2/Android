@@ -18,6 +18,7 @@ import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class DisplayMessageActivity extends AppCompatActivity implements SeekBar.OnSeekBarChangeListener {
 
@@ -32,6 +33,8 @@ public class DisplayMessageActivity extends AppCompatActivity implements SeekBar
     private final byte generatedSnd[] = new byte[2 * numSamples];
 
     Handler handler = new Handler();
+    int maxVolume = 22000;
+    float currentVolume = 0;
     MediaPlayer mp;
     Context context = this;
     @Override
@@ -46,6 +49,7 @@ public class DisplayMessageActivity extends AppCompatActivity implements SeekBar
         textView.setLayoutParams(new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT));
         textView.setBackgroundColor(ContextCompat.getColor(this, R.color.blue));
         textView.setTextSize(40);
+        textView.setMaxLines(2);
         textView.setText(message);
 
         ImageButton imageButton = (ImageButton) findViewById(R.id.imageButton);
@@ -87,6 +91,9 @@ public class DisplayMessageActivity extends AppCompatActivity implements SeekBar
         seekBar=(SeekBar)findViewById(R.id.seekBar);
         seekBar.setOnSeekBarChangeListener(this);
         mp = MediaPlayer.create(context, R.raw.airhorn);
+
+        //float log1=(float)(Math.log(maxVolume-currentVolume)/Math.log(maxVolume));
+
         imageButton.setOnClickListener (new View.OnClickListener() {
 
 
@@ -98,7 +105,12 @@ public class DisplayMessageActivity extends AppCompatActivity implements SeekBar
                         mp.stop();
                         mp.release();
                         mp = MediaPlayer.create(context, R.raw.airhorn);
-                    } mp.start();
+                        mp.setVolume(currentVolume/22000, currentVolume/22000);
+                    }
+                    mp.setVolume(currentVolume/22000, currentVolume/22000);
+                    mp.start();
+                    Toast toast = Toast.makeText(getApplicationContext(),"Volume = "+currentVolume, Toast.LENGTH_SHORT);
+                    toast.show();
                 } catch(Exception e) { e.printStackTrace(); }
             }
 
@@ -113,6 +125,7 @@ public class DisplayMessageActivity extends AppCompatActivity implements SeekBar
         //toast.show();
         TextView seekBarHint = (TextView) findViewById(R.id.seekBarHint);
         seekBarHint.setText(""+progress);
+        currentVolume = progress;
         freqOfTone = progress;
     }
 

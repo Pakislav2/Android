@@ -23,6 +23,9 @@
                 android:padding="16dp"
                 android:layout_margin="16dp"
                 android:background="@color/white"
+                android:maxLength="30"
+                android:maxLines="2"
+                android:ellipsize="end"
                 android:hint="@string/edit_message" />
 
             <Button
