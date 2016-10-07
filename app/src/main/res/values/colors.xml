@@ -7,5 +7,8 @@
     <color name="green">#008000</color>
     <color name="white">#FFFFFF</color>
     <color name="black">#000000</color>
+    <color name="grey">#808080</color>
+    <color name="brown">#732909</color>
+    <color name="coffee">#8F533A</color>
     <color name="red">#cc0000</color>
 </resources>

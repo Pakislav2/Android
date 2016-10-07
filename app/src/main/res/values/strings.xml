@@ -3,6 +3,10 @@
     <string name="edit_message">Enter a message</string>
     <string name="button_send">Send</string>
     <string name="prompt">Select a country.</string>
+    <string name="order">ORDER</string>
+    <string name="type">Type</string>
+    <string name="quantity">Quantity</string>
+    <string name="price">Price:</string>
     <string-array name="languages">
         <item>English</item>
         <item>Spanish</item>
@@ -11,5 +15,10 @@
         <item>German</item>
         <item>Swahili</item>
         <item>Nazi</item>
+    </string-array>
+    <string-array name="drink">
+        <item>Coffee</item>
+        <item>Tea</item>
+        <item>Soda</item>
     </string-array>
 </resources>
