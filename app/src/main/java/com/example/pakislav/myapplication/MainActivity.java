@@ -21,7 +21,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     public final static String EXTRA_QUANTITY = "com.example.myapplication.QUANTITY";
     public final static String EXTRA_TYPE = "com.example.myapplicaiton.TYPE";
     public String scountry;
-    public float quantity;
+    public int quantity;
     public double price;
 
     @Override
@@ -30,7 +30,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         setContentView(R.layout.activity_main);
 
 
-        /*Button plus = (Button) findViewById(R.id.buttonPlus);
+        /* ALL OF THE BELOW IS HANDLED IN LAYOUT XMLs
+        Button plus = (Button) findViewById(R.id.buttonPlus);
         plus.setOnClickListener(new View.OnClickListener(){
 
             @Override
@@ -67,10 +68,15 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     @Override
     public void onItemSelected(AdapterView<?> adapter, View v, int position, long id){
+        adapter.getItemAtPosition(position);    //What does this do exactly?
+        if (adapter.getId() == R.id.langSpinner){
             scountry = adapter.getItemAtPosition(position).toString();
-            Toast.makeText(getApplicationContext(),"Selected country: " + scountry, // Why does it print selection of the OTHER spinner2?
-                    Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(),"Selected country: " + scountry, Toast.LENGTH_LONG).show();
         }
+        if (adapter.getId() == R.id.typeSpinner) {
+            givePrice(v);
+        }
+    }
 
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
@@ -93,12 +99,13 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         Intent intent2 = new Intent(this, DisplayDrinkActivity.class);
         Spinner spinner2 = (Spinner) findViewById(R.id.typeSpinner);
         String type = spinner2.getSelectedItem().toString();
-        TextView textQuantity = (TextView) findViewById(textQuantityNumber);
-        Float quantityE = Float.valueOf(textQuantity.getText().toString());
-        intent2.putExtra(EXTRA_QUANTITY, quantityE);
+        intent2.putExtra(EXTRA_QUANTITY, quantity);
         intent2.putExtra(EXTRA_TYPE, type);
+        //Toast toast = Toast.makeText(getApplicationContext(), "Q: " + quantity, Toast.LENGTH_SHORT); //quantity is known and correct
+        //toast.show();
         startActivity(intent2);
     }
+
     public void addQuantity(View view){
         quantity++;
         TextView textQuantity = (TextView) findViewById(textQuantityNumber);

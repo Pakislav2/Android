@@ -14,11 +14,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
+import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class DisplayMessageActivity extends AppCompatActivity implements SeekBar.OnSeekBarChangeListener {
 
@@ -31,6 +37,9 @@ public class DisplayMessageActivity extends AppCompatActivity implements SeekBar
     private final double sample[] = new double[numSamples];
     private double freqOfTone = 440; //hz
     private final byte generatedSnd[] = new byte[2 * numSamples];
+    private ListView listView;
+    private ArrayAdapter<String> listAdapter;
+    private int selectedItem;
 
     Handler handler = new Handler();
     int maxVolume = 22000;
@@ -81,8 +90,8 @@ public class DisplayMessageActivity extends AppCompatActivity implements SeekBar
             case "Nazi":
                 imageButton.setImageResource(R.drawable.naziflag);
                 break;
-        }
 
+        }
 
         ViewGroup layout = (ViewGroup) findViewById(R.id.activity_display_message);
         layout.addView(textView);
@@ -90,7 +99,6 @@ public class DisplayMessageActivity extends AppCompatActivity implements SeekBar
         final Animation animScale = AnimationUtils.loadAnimation(this, R.anim.anim_scale);
         seekBar=(SeekBar)findViewById(R.id.seekBar);
         seekBar.setOnSeekBarChangeListener(this);
-        mp = MediaPlayer.create(context, R.raw.airhorn);
 
         //float log1=(float)(Math.log(maxVolume-currentVolume)/Math.log(maxVolume));
 
@@ -101,10 +109,27 @@ public class DisplayMessageActivity extends AppCompatActivity implements SeekBar
             public void onClick(View v){
                 v.startAnimation(animScale);
                 try {
+                    //if(selectedItem == 0){mp = MediaPlayer.create(context, R.raw.airhorn);}
+                    switch (selectedItem){
+                        case 0:
+                            mp = MediaPlayer.create(context, R.raw.airhorn);
+                            break;
+                        case 1:
+                            mp = MediaPlayer.create(context, R.raw.shotgun);
+                            break;
+                    }
+
                     if (mp.isPlaying()) {
                         mp.stop();
                         mp.release();
-                        mp = MediaPlayer.create(context, R.raw.airhorn);
+                        switch (selectedItem){
+                            case 0:
+                                mp = MediaPlayer.create(context, R.raw.airhorn);
+                                break;
+                            case 1:
+                                mp = MediaPlayer.create(context, R.raw.shotgun);
+                                break;
+                        }
                         mp.setVolume(currentVolume/22000, currentVolume/22000);
                     }
                     mp.setVolume(currentVolume/22000, currentVolume/22000);
@@ -115,6 +140,27 @@ public class DisplayMessageActivity extends AppCompatActivity implements SeekBar
             }
 
         });
+
+        listView = (ListView) findViewById( R.id.listView );
+        String[] sounds = new String[] { "Airhorn", "Shotgun"};
+        ArrayList<String> soundList = new ArrayList<String>();
+        soundList.addAll( Arrays.asList(sounds) );
+        listAdapter = new ArrayAdapter<String>(this, R.layout.listline, soundList);
+        listView.setAdapter( listAdapter );
+
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> adapter, View v, int position, long id) {
+                //Toast.makeText(getApplicationContext(),
+                //       "Click ListItem Number " + position, Toast.LENGTH_LONG)
+                //       .show();
+                selectedItem = position;
+                Toast.makeText(getApplicationContext(),
+                       "Click ListItem Number " + selectedItem, Toast.LENGTH_LONG)
+                       .show();
+            }
+        });
+
 
     }
 
